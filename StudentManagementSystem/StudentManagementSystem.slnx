@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="StudentManagement.API/StudentManagement.API.csproj" />
+  <Project Path="StudentManagement.Application/StudentManagement.Application.csproj" />
+  <Project Path="StudentManagement.Domain/StudentManagement.Domain.csproj" />
+  <Project Path="StudentManagement.Infrastructure/StudentManagement.Infrastructure.csproj" />
+  <Project Path="StudentManagement.Migrations.PostgreSql/StudentManagement.Migrations.PostgreSql.csproj" Id="1a20f4cd-b3b7-487f-b483-5321512e0185" />
+  <Project Path="StudentManagement.Migrations.SqlServer/StudentManagement.Migrations.SqlServer.csproj" Id="78539718-d12b-4045-84d6-973635b2bc74" />
+</Solution>
