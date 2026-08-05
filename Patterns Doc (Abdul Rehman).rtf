@@ -1,0 +1,188 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Times New Roman;}{\f1\fnil\fcharset0 Tahoma;}{\f2\fnil Times New Roman;}{\f3\fnil\fcharset1 Cambria Math;}{\f4\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}{\*\mmathPr\mmathFont3\mwrapIndent1440 }\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs48\lang9 Patterns\f1\par
+
+\pard\sa200\sl276\slmult1\f0\fs36 1. N-Tier Pattern(Layered Architecture):\par
+\b0\fs28 N-tier pattern is a an architectural pattern that organize an application into multiple layers, where each layer has a specific responsibility and can only talk to its adjacent layers. \line It's a macroscopic architecutral pattern which targets entire application. It typically divides an application into Presentation(UI), Business/Service(logic), Data(Database). It dictates data flow across an entire application. It ensures controller can't directly communicate with the database.\par
+\par
+\b\fs30 Benefits:\b0\fs28\line Easy to maintain: \f2 Changes in one layer have \f0\lang1033 very low\f2\lang9  impact on other layers.\par
+Easy to test\f0\lang1033 :\f2\lang9  Each layer can be tested independently.\par
+Easy to replace technology\f0\lang1033 :\f2\lang9  One layer's technology can be changed without affecting other layers.\par
+Reusable\f0\lang1033 :\f2\lang9  Business \f0\lang1033 rules\f2\lang9  and data access can be reused across different applications.\par
+\par
+\b Disadvantages:\b0\par
+Unnecessary for small applications\f0\lang1033 :\f2\lang9  Adds complexity where simple architecture would be sufficient.\par
+Too many files\f0\lang1033 :\f2\lang9  Separating responsibilities increases the number of classes and folders.\f0\par
+\b\fs30 Common Uses:\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1\b0 Hospital Management Systems\fs28\par
+{\pntext\f0 2.\tab}\fs30 Employee, HR Management Systems\fs28\par
+{\pntext\f0 3.\tab}\fs30 ERD Systems, Inventory Systems\fs28\par
+
+\pard\sa200\sl276\slmult1\par
+\fs30 Basically in applications which have business rules.\par
+\par
+\par
+\par
+\b\fs36 2. Repository Pattern:\par
+\b0\fs28 Repository pattern is a design pattern which hides all database operations behind a separate class.\line Instead of letting every class talk directly to the database, it uses a class whose only responsibility is database access.\par
+It is a microscopic code design pattern which strictly operates at the boundary between service layer and database layer. It ensures service doesn't know which database technology is being used.\par
+\par
+\b\fs30 Benefits:\par
+\b0\fs28 Easier Maintenance: \f2 Database-related changes are \f0\lang1033 contained\f2\lang9  in one place.\par
+Easier testing\f0\lang1033 :\f2\lang9  \f0\lang1033 We can perform testing by mocking repositories\f2\lang9 .\par
+Better separation (Business Logic \f3\u8594?\f0  Repository \f3\u8594?\f0  DB): \f2 Business logic remains independent of database code.\f0\lang9\par
+\b\fs30 Disadvantages:\b0\fs28\par
+ Small projects which have only one or two tables and queries sometimes don't need this.\line\f4\line\line\b\f0\fs30 Common Uses:\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1\b0 Hospital Management Systems\fs28\par
+{\pntext\f0 2.\tab}\fs30 Employee, HR Management Systems\fs28\par
+{\pntext\f0 3.\tab}\fs30 ERD Systems, Inventory Systems\fs28\par
+{\pntext\f0 4.\tab}School Management System\par
+
+\pard\sa200\sl276\slmult1\par
+\fs30 Basically in applications which involve database.\par
+\f4\fs28\par
+\par
+\par
+\b\f0\fs36 3. Unit of Work (UoW):\par
+\b0\fs28 Unit of Work is a design pattern which works on top of repository pattern. It coordinates all changes made through one or more repositories and commits(save) them into the database as a single transaction. It ensures all operations succeed together or all fail togehter, maintaining data consistency.\line\line\i Repositories do the operations. UoT save the changes.\par
+\par
+\i0 Unit of Work does two things:\par
+
+\pard 
+{\pntext\f4 1.\tab}{\*\pn\pnlvlbody\pnf4\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1 Keeps track of changes\f4\fs22\par
+{\pntext\f4 2.\tab}\f0\fs28 Save those changes togehter in one transaction.\f4\fs22\par
+
+\pard\sa200\sl276\slmult1\par
+\b\f0\fs30 Benefits:\par
+\b0\fs28 One transaction (everything succeeds or nothing): It make sure all operations are succeeded or rolled back together.\par
+Prevents inconsistent data: Do not update data if an operation fails.\par
+Better control: Provides single point to manage all database commits.\par
+Clean Repositories: Repositories only focus on data operations not transaction management.\par
+\par
+\b\fs30 Disadvantages:\b0\fs28\par
+Adds complexity: Requires additional classes and transaction management.\line Not suitable for small projects: May be unnecessary when only simple CRUD operations exist.\line\line\line\b\fs30 Common Uses:\par
+\b0\fs28 Because it prevents inconsistent data. It is common in\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1 Bank Systems\par
+{\pntext\f0 2.\tab}HR Systems\par
+{\pntext\f0 3.\tab}Hospital Systems\par
+{\pntext\f0 4.\tab}Inventory system\line\f4\fs22\par
+
+\pard\sa200\sl276\slmult1\par
+\par
+\line\b\f0\fs36 4. Microservices:\par
+\b0\fs28 Microservices is an architectureal pattern which divides a large project into small, indepenent services, where each service is responsible for specific business capability.\line In microservices, each small independent service usually implements N-Tier architecture, Repository pattern and Unit of Work.\par
+\par
+\b\fs30 Benefits:\par
+\b0\fs28 Independent deployment: \f2 Each service can be deployed without affecting others.\par
+Independent scaling\f0\lang1033 :\f2\lang9  Only heavily used services need \f0\lang1033 extra\f2\lang9  resources.\par
+Team independence\f0\lang1033 :\f2\lang9  Different teams can work on different services \f0\lang1033 at the same time\f2\lang9 .\par
+Small codebase\f0\lang1033 :\f2\lang9  Each service is easier to understand, maintain, and test.\par
+Technology freedom\f0\lang1033 :\f2\lang9  Each service can use the most suitable \f0\lang1033 resources according to it's need.\lang9\line\par
+\b\fs30 Disadvantages:\par
+\b0\fs28 Microservices are hard to build. The applications need to follow these\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1 Network communication: Different services (small applications) talk to each other over a network instead of a direct method call. If network or any service is slow, it causes delay.\par
+{\pntext\f0 2.\tab}Service discovery: Services need a way to find each others' addresses.\par
+{\pntext\f0 3.\tab}Authentication: Services need to authenticate every request.\par
+{\pntext\f0 4.\tab}Logging: You have to maintain a centralized logger to keep all the changes.\par
+{\pntext\f0 5.\tab}Distributed transaction: It's difficult to keep consistent data across multiple databases.\par
+{\pntext\f0 6.\tab}Monitoring: Difficult to keep the health and performance of many services.\par
+{\pntext\f0 7.\tab}Deployment complexity: Each service is build, tested, deployed & maintained independently.\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs30 Common Uses:\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1\b0\fs28 Applications with millions of users\par
+{\pntext\f0 2.\tab}Hundreds of developers\par
+{\pntext\f0 3.\tab}Multiple independent domains\par
+
+\pard\sa200\sl276\slmult1  \f4\fs22\par
+\line\line\par
+\par
+\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\f0\fs48 Dependency Injection(DI)\par
+
+\pard\sa200\sl276\slmult1\fs28 Dependency: \b0 It's any object or service that another class requires to perform its action.\par
+\b Dependency Injection: \b0 It's a design pattern which says that dependencies are provided by outside instead of being created inside the class.\par
+\b\par
+Benefits:\b0\par
+Loose coupling: \f2 Classes depend on abstractions instead of concrete implementations.\par
+Easy testing\f0\lang1033 :\f2\lang9  Dependencies can be easily replaced with mock\f0\lang1033  \f2\lang9 implementations.\par
+Better maintainability\f0\lang1033 :\f2\lang9  Changing one implementation has \f0\lang1033 very low\f2\lang9  impact on dependent classes.\par
+Improved flexibility\f0\lang1033 :\f2\lang9  Different implementations can be injected without modifying existing code.\par
+\par
+\b Disadvantages:\b0\par
+Slightly increases complexity\f0\lang1033 :\f2\lang9  Requires \f0\lang1033 setting up\f2\lang9  dependencies in the DI container.\par
+Learning curve\f0\lang1033 :\f2\lang9  Understanding dependency lifetimes and registrations can be difficult for beginners.\f0\par
+\b\line DI Container: \b0 It's an ASP.NET component which has three primary operations. It\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1 Instaniates the objects: Creates objects automatically when they are requested.\b\par
+{\pntext\f0 2.\tab}\b0 Resolves dependencies and injects them: Finds the required dependencies and supplies them to the requesting class.\b\par
+{\pntext\f0 3.\tab}\b0 Manages their dependencies' life cycles: ontrols how long objects live (Singleton, Scoped, or Transient).\b\par
+
+\pard\sa200\sl276\slmult1\par
+\fs30 Life times:\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1\fs28 AddSingleton: \b0 AddSingleton is a type of lifecycle where an instance is created when an application starts and destroyed when it stops.\b  \b0 Normally, it is used in loggers, caches, configurations.\b\line\b0 Ex: An ecommerce store typically has to show same data to all users. So, its product cache uses Singleton lifecycle.\b\line\b0 It is used when we have to show same kind of data to all users.\b\par
+{\pntext\f0 2.\tab}AddTransient: \b0 AddTransient is a type of lifecycle where an instance is created everytime program needed it and then it destroys.\b\line\b0 Normally, it uses in EmailGenerator, PDFGenerator etc.\b\line\b0 It is used where we don't have to store previous data.\b\line\par
+{\pntext\f0 3.\tab}AddScope: \b0 AddScope is a type of lifecycle where an instance is created when a request comes and it gets destroy when application save changes. It is the most used lifecycle and it is often being used in many applications. It is used in Banks, Hospitals, HR Systems etc.\b\line\b0 It is use where we have to save all changes at the end of a request.\b\par
+
+\pard\sa200\sl276\slmult1\par
+\b0\par
+\par
+\par
+\par
+\par
+
+\pard\sa200\sl276\slmult1\qc\b\fs48 Clean Architecture\par
+
+\pard\sa200\sl276\slmult1\b0\fs28 In small projects, controllers directly communicate with entity framework or ORMs but as project grows, it becomes difficult to test, maintain and add additonal feature because of tight coupling.\line\line Clean Architecture divides an application into layers to separate responsibilities. This creates easier scalability, testability, maintability and separation of concerns.\par
+\par
+\b\fs36 Layers:\fs30\par
+
+\pard 
+{\pntext\f0 1.\tab}{\*\pn\pnlvlbody\pnf0\pnindent0\pnstart1\pndec{\pntxta.}}
+\fi-360\li720\sa200\sl276\slmult1\fs28 Presentation\b0\line It normally contains controllers. It handles & validate HTTP reqs, calls services and return responses.\par
+{\pntext\f0 2.\tab}\b Application\b0\line It is the heart of application. It contains Application Business Rules. It contains services, interfaces, DTOs, business logic and usecaes, and mapping.\par
+{\pntext\f0 3.\tab}\b Domain\b0\line It is the most important layer. It contains Enterprsie business rules, entities, enums. It is independent of every other layer. Even if the whole system changes, Domain layer stays same, it changes very rarely.\par
+{\pntext\f0 4.\tab}\b Infrastructure\b0\line It contains technical implementation of a system. It has repository classes, ORMs, and other APIs we integrate with our system.\par
+
+\pard\sa200\sl276\slmult1\par
+\par
+\b\fs36 Dependency Rule:\par
+\b0\fs28 Clean Architecture has very important dependency rule that all dependencies point inward to the domain layer. Domain layer is independent layer. Outer layers know about inner layers but no inner layer should know about outer layers.\par
+Presentation\par
+      \f3\u8595?\f0\par
+Application\par
+      \f3\u8595?\f0\par
+Domain\par
+\par
+Infrastructure\par
+      \f3\u8593?\f0\par
+Application\par
+\par
+\par
+Clean Architecture is implemented through SOLID principles.\line\line\line\line\b\fs32 How Dependency Inversion Principle and Dependency Injection are related?\par
+\b0\fs28 DIP is a princple which says no higher class should depend on lower class. Both should depend on abstractions. \line\line DI is pattern or a way which implements DIP. It says these abstraction dependencies are provided by outside of a class instead of being created inside. ASP.NET DI container provide these dependencies from outside.\f4\fs22\lang9\par
+}
+ 
