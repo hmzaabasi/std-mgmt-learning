@@ -1,19 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using StudentManagement.Application.Common;
-using StudentManagement.Application.Departments.Events;
+﻿using StudentManagement.Application.Common;
 using StudentManagement.Application.Students.Events;
+using StudentManagement.Application.Departments.Events;
 using StudentManagement.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace StudentManagement.Infrastructure.Messaging
 {
-    public class PostgresSyncWorker : BackgroundService
+    public class PostgresSyncWorker : IHostedService
     {
         private readonly IEventQueue _eventQueue;
         private readonly IServiceScopeFactory _scopeFactory;
+        private Task? _executingTask;
+        private CancellationTokenSource? _cts;
 
         public PostgresSyncWorker(IEventQueue eventQueue, IServiceScopeFactory scopeFactory)
         {
@@ -21,7 +20,22 @@ namespace StudentManagement.Infrastructure.Messaging
             _scopeFactory = scopeFactory;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            _executingTask = RunLoopAsync(_cts.Token);
+            return Task.CompletedTask;
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            if (_executingTask == null) return;
+
+            _cts!.Cancel();
+            await Task.WhenAny(_executingTask, Task.Delay(Timeout.Infinite, cancellationToken));
+        }
+
+        private async Task RunLoopAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -44,21 +58,21 @@ namespace StudentManagement.Infrastructure.Messaging
                         break;
 
                     case StudentUpdatedEvent updated:
-                        var existing = await postgresContext.Students.FindAsync(new object[] { updated.Id }, stoppingToken);
-                        if (existing != null)
+                        var existingStudent = await postgresContext.Students.FindAsync(new object[] { updated.Id }, stoppingToken);
+                        if (existingStudent != null)
                         {
-                            existing.Name = updated.Name;
-                            existing.Email = updated.Email;
-                            existing.Age = updated.Age;
-                            existing.DepartmentId = updated.DepartmentId;
+                            existingStudent.Name = updated.Name;
+                            existingStudent.Email = updated.Email;
+                            existingStudent.Age = updated.Age;
+                            existingStudent.DepartmentId = updated.DepartmentId;
                         }
                         break;
 
                     case StudentDeletedEvent deleted:
-                        var toRemove = await postgresContext.Students.FindAsync(new object[] { deleted.Id }, stoppingToken);
-                        if (toRemove != null)
+                        var toRemoveStudent = await postgresContext.Students.FindAsync(new object[] { deleted.Id }, stoppingToken);
+                        if (toRemoveStudent != null)
                         {
-                            postgresContext.Students.Remove(toRemove);
+                            postgresContext.Students.Remove(toRemoveStudent);
                         }
                         break;
 
@@ -90,5 +104,5 @@ namespace StudentManagement.Infrastructure.Messaging
                 await postgresContext.SaveChangesAsync(stoppingToken);
             }
         }
-    }
+    }  
 }

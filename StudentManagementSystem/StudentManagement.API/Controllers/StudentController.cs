@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Application.DTOs.Student;
 using StudentManagement.Application.DTOs.Common;
-using StudentManagement.Application.Interfaces.Services;
+using StudentManagement.Application.Students.Commands.AddStudent;
+using StudentManagement.Application.Students.Commands.UpdateStudent;
+using StudentManagement.Application.Students.Commands.DeleteStudent;
+using StudentManagement.Application.Students.Queries.GetAllStudents;
+using StudentManagement.Application.Students.Queries.GetStudentById;
 
 namespace StudentManagement.API.Controllers;
 
@@ -9,23 +13,37 @@ namespace StudentManagement.API.Controllers;
 [Route("api/[controller]")]
 public class StudentController : ControllerBase
 {
-    private readonly IStudentService _studentService;
+    private readonly AddStudentCommandHandler _addStudentHandler;
+    private readonly UpdateStudentCommandHandler _updateStudentHandler;
+    private readonly DeleteStudentCommandHandler _deleteStudentHandler;
+    private readonly GetAllStudentsQueryHandler _getAllStudentsHandler;
+    private readonly GetStudentByIdQueryHandler _getStudentByIdHandler;
 
-    public StudentController(IStudentService studentService)
+    public StudentController(
+        AddStudentCommandHandler addStudentHandler,
+        UpdateStudentCommandHandler updateStudentHandler,
+        DeleteStudentCommandHandler deleteStudentHandler,
+        GetAllStudentsQueryHandler getAllStudentsHandler,
+        GetStudentByIdQueryHandler getStudentByIdHandler)
     {
-        _studentService = studentService;
+        _addStudentHandler = addStudentHandler;
+        _updateStudentHandler = updateStudentHandler;
+        _deleteStudentHandler = deleteStudentHandler;
+        _getAllStudentsHandler = getAllStudentsHandler;
+        _getStudentByIdHandler = getStudentByIdHandler;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] PaginationDto pagination)
     {
-        return Ok(await _studentService.GetAllAsync(pagination));
+        var result = await _getAllStudentsHandler.Handle(new GetAllStudentsQuery { Pagination = pagination });
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var student = await _studentService.GetByIdAsync(id);
+        var student = await _getStudentByIdHandler.Handle(new GetStudentByIdQuery { Id = id });
 
         if (student == null)
             return NotFound();
@@ -36,7 +54,15 @@ public class StudentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateStudentDto dto)
     {
-        var student = await _studentService.CreateAsync(dto);
+        var command = new AddStudentCommand
+        {
+            Name = dto.Name,
+            Email = dto.Email,
+            Age = dto.Age,
+            DepartmentId = dto.DepartmentId
+        };
+
+        var student = await _addStudentHandler.Handle(command);
 
         if (student == null)
             return NotFound("Department not found");
@@ -45,9 +71,18 @@ public class StudentController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody]UpdateStudentDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateStudentDto dto)
     {
-        var updated = await _studentService.UpdateAsync(id, dto);
+        var command = new UpdateStudentCommand
+        {
+            Id = id,
+            Name = dto.Name,
+            Email = dto.Email,
+            Age = dto.Age,
+            DepartmentId = dto.DepartmentId
+        };
+
+        var updated = await _updateStudentHandler.Handle(command);
 
         if (!updated)
             return NotFound();
@@ -58,7 +93,7 @@ public class StudentController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _studentService.DeleteAsync(id);
+        var deleted = await _deleteStudentHandler.Handle(new DeleteStudentCommand { Id = id });
 
         if (!deleted)
             return NotFound();

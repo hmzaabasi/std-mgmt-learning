@@ -1,8 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Application.Common;
+using StudentManagement.Application.Departments.Commands.AddDepartment;
+using StudentManagement.Application.Departments.Commands.DeleteDepartment;
+using StudentManagement.Application.Departments.Commands.UpdateDepartment;
+using StudentManagement.Application.Departments.Queries.GetAllDepartments;
+using StudentManagement.Application.Departments.Queries.GetDepartmentById;
 using StudentManagement.Application.Interfaces.Repositories;
 using StudentManagement.Application.Interfaces.Services;
 using StudentManagement.Application.Services;
+using StudentManagement.Application.Students.Commands.AddStudent;
+using StudentManagement.Application.Students.Commands.DeleteStudent;
+using StudentManagement.Application.Students.Commands.UpdateStudent;
+using StudentManagement.Application.Students.Queries.GetAllStudents;
+using StudentManagement.Application.Students.Queries.GetStudentById;
 using StudentManagement.Infrastructure.DependencyInjection;
 using StudentManagement.Infrastructure.Messaging;
 using StudentManagement.Infrastructure.Persistence;
@@ -22,6 +32,27 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddSingleton<IEventQueue, InMemoryEventQueue>();
 builder.Services.AddHostedService<PostgresSyncWorker>();
 builder.Services.AddScoped<IStudentReadRepository, StudentReadRepository>();
+
+//Commands for Student
+builder.Services.AddScoped<AddStudentCommandHandler>();
+builder.Services.AddScoped<UpdateStudentCommandHandler>();
+builder.Services.AddScoped<DeleteStudentCommandHandler>();
+
+//Queries for Student
+builder.Services.AddScoped<GetStudentByIdQueryHandler>();
+builder.Services.AddScoped<GetAllStudentsQueryHandler>();
+
+//Commands for Department
+builder.Services.AddScoped<AddDepartmentCommandHandler>();
+builder.Services.AddScoped<UpdateDepartmentCommandHandler>();
+builder.Services.AddScoped<DeleteDepartmentCommandHandler>();
+builder.Services.AddScoped<AddDepartmentCommandHandler>();
+builder.Services.AddScoped<UpdateDepartmentCommandHandler>();
+builder.Services.AddScoped<DeleteDepartmentCommandHandler>();
+
+//Queries for Department
+builder.Services.AddScoped<GetDepartmentByIdQueryHandler>();
+builder.Services.AddScoped<GetAllDepartmentsQueryHandler>();
 
 builder.Services.AddCors(options =>
 {
