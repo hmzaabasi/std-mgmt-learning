@@ -6,7 +6,6 @@ using StudentManagement.Application.Departments.Queries.GetAllDepartments;
 using StudentManagement.Application.Departments.Queries.GetDepartmentById;
 using StudentManagement.Application.DTOs.Common;
 using StudentManagement.Application.DTOs.Department;
-using StudentManagement.Application.Interfaces.Services;
 
 namespace StudentManagement.API.Controllers;
 

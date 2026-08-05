@@ -6,8 +6,6 @@ using StudentManagement.Application.Departments.Commands.UpdateDepartment;
 using StudentManagement.Application.Departments.Queries.GetAllDepartments;
 using StudentManagement.Application.Departments.Queries.GetDepartmentById;
 using StudentManagement.Application.Interfaces.Repositories;
-using StudentManagement.Application.Interfaces.Services;
-using StudentManagement.Application.Services;
 using StudentManagement.Application.Students.Commands.AddStudent;
 using StudentManagement.Application.Students.Commands.DeleteStudent;
 using StudentManagement.Application.Students.Commands.UpdateStudent;
@@ -26,8 +24,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
 
 builder.Services.AddSingleton<IEventQueue, InMemoryEventQueue>();
 builder.Services.AddHostedService<PostgresSyncWorker>();
