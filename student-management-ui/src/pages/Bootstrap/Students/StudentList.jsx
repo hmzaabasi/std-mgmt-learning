@@ -73,6 +73,7 @@ function StudentList() {
 
             setSelectedStudent(null)
 
+            await new Promise(resolve => setTimeout(resolve, 500))
             await loadStudents()
 
             toast.success("Student deleted successfully.")
@@ -215,6 +216,8 @@ function StudentList() {
                     }}
                     onSuccess={async (msg) => {
                        toast.success(msg)
+                       
+                       await new Promise(resolve => setTimeout(resolve, 500))
                        await loadStudents()
 
                     }}
