@@ -78,6 +78,7 @@ function DepartmentList() {
             setSelectedDepartment(null)
             setShowDeleteModal(false)
 
+            await new Promise(resolve => setTimeout(resolve, 500))
             await loadDepartments()
 
             toast.success("Department deleted successfully.")
@@ -232,6 +233,8 @@ function DepartmentList() {
                         onSuccess={async (msg) => {
 
                             toast.success(msg)
+                            
+                            await new Promise(resolve => setTimeout(resolve, 500))
                             await loadDepartments()
 
                         }}
