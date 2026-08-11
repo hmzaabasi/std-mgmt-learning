@@ -113,6 +113,7 @@ function DepartmentList() {
             setSelectedDepartment(null)
             setShowDeleteModal(false)
 
+            await new Promise(resolve => setTimeout(resolve, 500))
             await loadDepartments()
 
             notifications.show({
@@ -285,6 +286,7 @@ function DepartmentList() {
                                 position:"top-left",
                                 icon: <IconCheck size={18}/>
                             })
+                            await new Promise(resolve => setTimeout(resolve, 500))
                             await loadDepartments()
 
                         }}

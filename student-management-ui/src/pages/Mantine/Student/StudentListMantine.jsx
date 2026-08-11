@@ -102,6 +102,7 @@ function StudentList() {
 
             setSelectedStudent(null)
 
+            await new Promise(resolve => setTimeout(resolve, 500))
             await loadStudents()
 
             notifications.show({
@@ -277,6 +278,7 @@ function StudentList() {
                         position:"top-left",
                         icon: <IconCheck size={18}/>
                     })
+                       await new Promise(resolve => setTimeout(resolve, 500))
                        await loadStudents()
 
                     }}

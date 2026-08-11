@@ -66,6 +66,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var postgresContext = scope.ServiceProvider.GetRequiredService<PostgreSqlDbContext>();
+    await postgresContext.Database.CanConnectAsync();
+}
+
 app.UseCors("AllowReact");
 
 // Configure the HTTP request pipeline.
