@@ -1,0 +1,6 @@
+@BasicAuth_Session_Cookie_HostAddress = http://localhost:5283
+
+GET {{BasicAuth_Session_Cookie_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

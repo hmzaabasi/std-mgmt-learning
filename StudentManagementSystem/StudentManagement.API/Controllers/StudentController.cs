@@ -6,9 +6,11 @@ using StudentManagement.Application.Students.Commands.UpdateStudent;
 using StudentManagement.Application.Students.Commands.DeleteStudent;
 using StudentManagement.Application.Students.Queries.GetAllStudents;
 using StudentManagement.Application.Students.Queries.GetStudentById;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentManagement.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class StudentController : ControllerBase

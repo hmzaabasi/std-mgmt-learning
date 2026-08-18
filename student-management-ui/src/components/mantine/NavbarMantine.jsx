@@ -92,6 +92,18 @@ function NavbarMantine() {
                             Switch UI
                     </Button>
 
+                    <Button
+                        variant="filled"
+                        color="red"
+                        radius="xl"
+                        onClick={() => {
+                            localStorage.removeItem("token")
+                            window.location.href = "/login"
+                        }}
+                    >
+                        Logout
+                    </Button>
+
                 </Group>
 
             </Group>

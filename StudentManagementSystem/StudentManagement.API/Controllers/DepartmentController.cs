@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Application.Departments.Commands.AddDepartment;
 using StudentManagement.Application.Departments.Commands.DeleteDepartment;
 using StudentManagement.Application.Departments.Commands.UpdateDepartment;
@@ -6,10 +7,10 @@ using StudentManagement.Application.Departments.Queries.GetAllDepartments;
 using StudentManagement.Application.Departments.Queries.GetDepartmentById;
 using StudentManagement.Application.DTOs.Common;
 using StudentManagement.Application.DTOs.Department;
-using StudentManagement.Application.Interfaces.Services;
 
 namespace StudentManagement.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class DepartmentController : ControllerBase

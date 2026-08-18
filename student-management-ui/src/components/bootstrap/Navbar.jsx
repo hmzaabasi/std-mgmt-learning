@@ -57,6 +57,16 @@ function Navbar() {
                         Switch UI
                     </button>
 
+                    <button
+                        className="btn btn-outline-danger btn-sm ms-2"
+                        onClick={() => {
+                            localStorage.removeItem("token")
+                            window.location.href = "/login"
+                        }}
+                    >
+                        Logout
+                    </button>
+
                 </div>
 
             </div>
