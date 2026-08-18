@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentManagement.Application.Departments.Commands.AddDepartment;
 using StudentManagement.Application.Departments.Commands.DeleteDepartment;
 using StudentManagement.Application.Departments.Commands.UpdateDepartment;
@@ -9,6 +10,7 @@ using StudentManagement.Application.DTOs.Department;
 
 namespace StudentManagement.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class DepartmentController : ControllerBase
