@@ -176,7 +176,6 @@ function StudentList() {
     </div>
 
     <Button
-            color="teal.7"
             variant="filled"
             px="xl"
             leftSection={<IconPlus size={16} />}

@@ -15,9 +15,16 @@ export const studentSchema=z.object({
     .min(1,"Email is required.")
     .email("Enter a valid email."),
 
-    age: requiredNumber("Age is required."),
-    // .int("Age must be a whole number.")
-    // .min(1, "Age must be greater than zero."),
+   age: z.preprocess(
+    (val) => {
+        if (val === null || val === undefined || val === "") return undefined
+        return Number(val)
+    },
+    z.union([
+        z.undefined(),
+        z.number().int("Age must be a whole number.").min(1, "Age must be greater than zero.")
+    ])
+).refine((val) => val !== undefined, { message: "Age is required." }),
 
    departmentId: requiredNumber("Please select a department.")
 })

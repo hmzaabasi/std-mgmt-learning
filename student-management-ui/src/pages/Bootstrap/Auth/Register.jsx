@@ -1,39 +1,45 @@
 import { useState } from "react"
-import api from "../../../api/axios"
 import { useNavigate } from "react-router-dom"
+import api from "../../../api/axios"
 
-function Login() {
+function Register() {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
-    const handleLogin = async () => {
+    const handleRegister = async () => {
         setError("")
 
-        if (!username || !password) {
-            setError("Please enter username and password")
+        if (!username || !password || !confirmPassword) {
+            setError("Please fill in all fields")
+            return
+        }
+
+        if (password !== confirmPassword) {
+            setError("Passwords do not match")
             return
         }
 
         setLoading(true)
 
         try {
-            const response = await api.post("/auth/login", { username, password })
+            const response = await api.post("/auth/register", { username, password })
             localStorage.setItem("token", response.data.token)
             window.location.href = "/departments"
         } catch (err) {
-            setError("Invalid username or password")
+            setError("Username already exists")
         } finally {
             setLoading(false)
         }
     }
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") handleLogin()
+        if (e.key === "Enter") handleRegister()
     }
 
     return (
@@ -47,7 +53,7 @@ function Login() {
             >
                 <div className="text-center mb-4">
                     <h2 className="fw-bold">Student Management</h2>
-                    <p className="text-muted">Sign in to your account</p>
+                    <p className="text-muted">Create a new account</p>
                 </div>
 
                 {error && (
@@ -68,7 +74,7 @@ function Login() {
                     />
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-3">
                     <label className="form-label fw-semibold">Password</label>
                     <input
                         type="password"
@@ -80,32 +86,46 @@ function Login() {
                     />
                 </div>
 
+                <div className="mb-4">
+                    <label className="form-label fw-semibold">Confirm Password</label>
+                    <input
+                        type="password"
+                        className="form-control form-control-lg"
+                        placeholder="Confirm password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                </div>
+
                 <button
-                    className="btn btn-primary btn-lg w-100"
-                    onClick={handleLogin}
+                    className="btn btn-primary btn-lg w-100 mb-3"
+                    onClick={handleRegister}
                     disabled={loading}
                 >
                     {loading ? (
                         <>
                             <span className="spinner-border spinner-border-sm me-2" />
-                            Signing in...
+                            Creating account...
                         </>
-                    ) : "Sign In"}
+                    ) : "Register"}
                 </button>
-                <p className="text-center text-muted mb-0 mt-3">
-                    Don't have an account?{" "}
+
+                <p className="text-center text-muted mb-0">
+                    Already have an account?{" "}
                     <span
                         className="text-primary"
                         style={{ cursor: "pointer" }}
-                        onClick={() => navigate("/register")}
+                        onClick={() => navigate("/login")}
                     >
-                        Register
+                        Sign in
                     </span>
                 </p>
+
             </div>
         </div>
     )
 
 }
 
-export default Login
+export default Register

@@ -1,7 +1,9 @@
 import { useState } from "react"
-import { TextInput, PasswordInput, Button, Paper, Title, Text, Alert } from "@mantine/core"
+import { TextInput, PasswordInput, Button, Paper, Title, Text, Alert, Grid, Flex, Box } from "@mantine/core"
 import { IconAlertCircle } from "@tabler/icons-react"
+import { useNavigate } from "react-router-dom"
 import api from "../../../api/axios"
+import logo from "../../../assets/SMS_logo.png"
 
 function LoginMantine() {
 
@@ -9,6 +11,8 @@ function LoginMantine() {
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
 
     const handleLogin = async () => {
         setLoading(true)
@@ -35,73 +39,99 @@ function LoginMantine() {
         if (e.key === "Enter") handleLogin()
     }
 
-    return (
-        <div
-            style={{
-                minHeight: "100vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#f0f2f5"
-            }}
-        >
-            <Paper
-                shadow="lg"
-                radius="md"
-                p="xl"
-                style={{ width: "100%", maxWidth: "420px" }}
-            >
-                <Title order={2} ta="center" mb={4}>
-                    Student Management
-                </Title>
-
-                <Text c="dimmed" size="sm" ta="center" mb="lg">
-                    Sign in to your account
-                </Text>
-
-                {error && (
-                    <Alert
-                        icon={<IconAlertCircle size={16} />}
-                        color="red"
-                        mb="md"
-                        radius="md"
+   return (
+    <Grid style={{ height: "100vh", margin: 0 }}>
+        <Grid.Col span={6}
+            style={{ 
+                height: "100vh",
+                background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)" 
+            }}>
+                <Flex direction="column"
+                      justify="center" 
+                      align="center" 
+                      h="100%" p="xl"
                     >
-                        {error}
-                    </Alert>
-                )}
+                        <img src={logo} alt="logo" style={{width: "120px" , marginBottom: "24px"}}/>
+                        <Title order={2} c="white" ta="center" mb="xl">
+                            Welcome Back!
+                        </Title>
+                         <Text c="rgba(255,255,255,0.7)" ta="center" size="sm">
+                            Sign in to manage your students and departments
+                        </Text>
+                    </Flex>
+        </Grid.Col>
+        <Grid.Col span={6}
+            style={{ 
+                height: "100vh",
+                background: "white" 
+            }}>
+              <Flex direction="column"
+                      justify="center" 
+                      align="center" 
+                      h="100%" p="xl"
+              >
+                <Box>
+                        <Title order={2} ta="center" mb={4}>
+                            Student Management
+                        </Title>
 
-                <TextInput
-                    label="Username"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    size="md"
-                    mb="md"
-                />
+                        <Text c="dimmed" size="sm" ta="center" mb="lg">
+                            Sign in to your account
+                        </Text>
 
-                <PasswordInput
-                    label="Password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    size="md"
-                    mb="xl"
-                />
+                        {error && (
+                            <Alert
+                                icon={<IconAlertCircle size={16} />}
+                                color="red"
+                                mb="md"
+                                radius="md"
+                            >
+                                {error}
+                            </Alert>
+                        )}
 
-                <Button
-                    fullWidth
-                    size="md"
-                    loading={loading}
-                    onClick={handleLogin}
-                >
-                    Sign In
-                </Button>
+                        <TextInput
+                            label="Username"
+                            placeholder="Enter username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            size="md"
+                            mb="md"
+                        />
 
-            </Paper>
-        </div>
-    )
+                        <PasswordInput
+                            label="Password"
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            size="md"
+                            mb="xl"
+                        />
+
+                        <Button
+                            fullWidth
+                            size="md"
+                            loading={loading}
+                            onClick={handleLogin}
+                        >
+                            Sign In
+                        </Button>
+                        <Text ta="center" size="sm" c="dimmed" mt="md">
+                            Don't have an account?{" "}
+                            <span
+                                style={{ color: "var(--mantine-color-blue-6)", cursor: "pointer" }}
+                                onClick={() => navigate("/register")}
+                            >
+                                Register
+                            </span>
+                        </Text>
+                    </Box>
+                </Flex>  
+        </Grid.Col>
+    </Grid>
+)
 
 }
 

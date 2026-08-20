@@ -12,7 +12,9 @@ import DepartmentListMantine from "./pages/Mantine/Department/DepartmentListMant
 import StudentListMantine from "./pages/Mantine/Student/StudentListMantine"
 
 import Login from "./pages/Bootstrap/Auth/Login"
+import Register from "./pages/Bootstrap/Auth/Register"
 import LoginMantine from "./pages/Mantine/Auth/LoginMantine"
+import RegisterMantine from "./pages/Mantine/Auth/RegisterMantine"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
@@ -37,6 +39,14 @@ function App() {
                 }
             />
 
+            <Route
+                path="/register"
+                element={
+                    framework === "bootstrap"
+                        ? <Register />
+                        : <RegisterMantine />
+                }
+            />
             <Route
                 element={
                     <ProtectedRoute>

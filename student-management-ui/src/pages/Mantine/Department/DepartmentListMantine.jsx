@@ -185,7 +185,6 @@ function DepartmentList() {
                         </div>
 
                         <Button
-                            color="teal.7"
                             variant="filled"
                             leftSection={<IconPlus size={18} />}
                             size="md"

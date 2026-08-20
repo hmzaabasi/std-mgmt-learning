@@ -47,8 +47,8 @@ function StudentModal({
     defaultValues: {
         name: "",
         email: "",
-        age: undefined,
-        departmentId: undefined
+        age: null,
+        departmentId: null
     }
 })
 
@@ -74,7 +74,12 @@ function StudentModal({
             onSuccess("Student created successfully.");
         }
 
-        reset();
+        reset({
+    name: "",
+    email: "",
+    age: null,
+    departmentId: null
+})
         onClose();
 
     } catch (error) {
@@ -117,21 +122,26 @@ function StudentModal({
 
 
     useEffect(() => {
+        if(show){
+            if (student) {
 
-    if (student) {
+                setValue("name", student.name);
+                setValue("email", student.email);
+                setValue("age", student.age);
+                setValue("departmentId", student.departmentId ?? null);
 
-        setValue("name", student.name);
-        setValue("email", student.email);
-        setValue("age", student.age);
-        setValue("departmentId", student.departmentId ?? null);
+            } else {
 
-    } else {
+                reset({
+    name: "",
+    email: "",
+    age: null,
+    departmentId: null
+})
 
-        reset();
-
-    }
-
-}, [student, setValue, reset])
+            }
+        }
+}, [show,student, setValue, reset])
 
     useEffect(() => {
 
@@ -182,12 +192,12 @@ function StudentModal({
                                     label="Age"
                                     placeholder="Enter age"
                                     min={1}
-                                    value={field.value}
+                                    value={field.value ?? null}
                                     onChange={(value) => {
-                                        if (value === "" || value === null) {
-                                            field.onChange(undefined);
+                                        if (value === "" || value === null || value === undefined) {
+                                            field.onChange(null)
                                         } else {
-                                            field.onChange(value);
+                                            field.onChange(value)
                                         }
                                     }}
                                 />
@@ -214,7 +224,7 @@ function StudentModal({
                                     }))}
                                     value={field.value?.toString() ?? undefined}
                                     onChange={(value) => 
-                                        field.onChange(value ? Number(value) : undefined)
+                                        field.onChange(value ? Number(value) : null)
                                     }
                                 />
 
@@ -236,7 +246,12 @@ function StudentModal({
                             <Button
                                 variant="default"
                                 onClick={() => {
-                                    reset();
+                                    reset({
+                                        name: "",
+                                        email: "",
+                                        age: null,
+                                        departmentId: null
+                                    })
                                     onClose();
                                 }}
                             >
