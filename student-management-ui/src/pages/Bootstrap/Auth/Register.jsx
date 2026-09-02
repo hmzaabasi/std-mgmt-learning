@@ -7,6 +7,7 @@ function Register() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [role, setRole] = useState("Student")
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -28,7 +29,7 @@ function Register() {
         setLoading(true)
 
         try {
-            const response = await api.post("/auth/register", { username, password })
+            const response = await api.post("/auth/register", { username, password, role })
             localStorage.setItem("token", response.data.token)
             window.location.href = "/departments"
         } catch (err) {
@@ -96,6 +97,18 @@ function Register() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onKeyDown={handleKeyDown}
                     />
+                </div>
+
+                <div className="mb-4">
+                    <label className="form-label fw-semibold">Role</label>
+                    <select
+                        className="form-select form-select-lg"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                    >
+                        <option value="Student">Student</option>
+                        <option value="Admin">Admin</option>
+                    </select>
                 </div>
 
                 <button

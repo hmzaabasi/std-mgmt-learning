@@ -21,7 +21,7 @@ namespace StudentManagement.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public async Task<string?> Register(string username, string password)
+        public async Task<string?> Register(string username, string password, string role)
         {
             if (await _context.Users.AnyAsync(u => u.Username == username))
                 return null;
@@ -29,7 +29,8 @@ namespace StudentManagement.Infrastructure.Services
             var user = new User
             {
                 Username = username,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                Role = role
             };
 
             _context.Users.Add(user);
@@ -56,10 +57,11 @@ namespace StudentManagement.Infrastructure.Services
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
-            };
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+            new Claim(ClaimTypes.Role, user.Role)
+        };
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],

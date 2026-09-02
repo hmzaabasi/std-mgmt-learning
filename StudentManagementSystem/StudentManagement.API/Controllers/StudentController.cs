@@ -53,6 +53,7 @@ public class StudentController : ControllerBase
         return Ok(student);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateStudentDto dto)
     {
@@ -72,6 +73,7 @@ public class StudentController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = student.Id }, student);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateStudentDto dto)
     {
@@ -92,6 +94,7 @@ public class StudentController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {

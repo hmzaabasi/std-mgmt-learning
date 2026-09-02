@@ -53,6 +53,7 @@ public class DepartmentController : ControllerBase
         return Ok(department);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateDepartmentDto dto)
     {
@@ -67,6 +68,7 @@ public class DepartmentController : ControllerBase
             department);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody]UpdateDepartmentDto dto)
     {
@@ -84,6 +86,7 @@ public class DepartmentController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
